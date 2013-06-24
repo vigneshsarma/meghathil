@@ -1,6 +1,8 @@
-(ns meghathil.core)
+(ns meghathil.core
+  (:require [me.raynes.fs :as fs]))
 
-(defn foo
+(defn -main
   "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+  [& args]
+  (println "Hello, World!")
+  (fs/walk println fs/*cwd*))
