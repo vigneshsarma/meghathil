@@ -1,0 +1,9 @@
+;; this is a sample configuration file.
+{;; :dir is the local folder to be synced
+ :dir "/home/vignesh/Pictures/"
+ ;; :cloud details about the cloud storage
+ :cloud {;; sample
+         :provider google
+         :credentials provide
+         }
+ }

@@ -5,5 +5,6 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [me.raynes/fs "1.4.4"]
-                 [org.clojure/tools.logging "0.2.6"]]
+                 [org.clojure/tools.logging "0.2.6"]
+                 [com.google.apis/google-api-services-drive "v2-rev79-1.15.0-rc"]]
   :main meghathil.core)
