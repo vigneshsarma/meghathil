@@ -37,22 +37,14 @@
                 :body file}))
 (defn google-insert-file-with-metadata [credential file metadata]
   (let [upload_file (google-upload-file credential file)]
-    (if (= (:status upload_file) "200")
+    (if (= (:status upload_file) 200)
       (let [response (parse-string (:body upload_file))
-            fileId ("fileId" response)]
-        (oauth2/put
-         (str url-google-file fileId)
-         {:oauth2 credential
-          :throw-exceptions false
-          :file-params metadata})))))
-
-(defn insert-file []
-  (let [body (new File)]
-    (doto body
-      (.setTitle "Readme")
-      (.setDescription "A test document")
-      (.setMimeType "text/plain"))
-    body))
+            fileId (response "id")]
+        (oauth2/put (str url-google-file fileId)
+                    {:oauth2 credential
+                     :throw-exceptions false
+                     :body metadata ;; "{\"title\": \"Readme\"}"
+                     :content-type :json})))))
 
 (defn do-the-stuff []
   (let [
