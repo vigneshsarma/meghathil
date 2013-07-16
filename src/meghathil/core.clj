@@ -2,7 +2,7 @@
   (:require [me.raynes.fs :as fs]
             ;; [clojure.tools.logging :as log]
             [clojure.edn :as edn]
-            [cheshire.core :refer [parse-string]]
+            [cheshire.core :refer [parse-string generate-string]]
             [clj-oauth2.client :as oauth2])
   (:gen-class))
 (require 'clojure.java.io)
@@ -46,23 +46,18 @@
                      :body metadata ;; "{\"title\": \"Readme\"}"
                      :content-type :json})))))
 
-(defn do-the-stuff []
-  (let [
-        credential (get-google-credential)
+(defn sync-folder [folder sub-folders files]
+  ;; (let [credential (get-google-credential)]
         ;; Create a new authorized API client
-        list_files (oauth2/get
-                    url-google-file
-                    {:oauth2 credential})
-        upload_file (oauth2/post
-                     url-google-file
-                     {:oauth2 credential
-                      :mutlipart [{:name "Readme"
-                                   :content (clojure.java.io/file "README.md")}]
-                      :form-params {:title "Readme"
-                                    :mime-type "text/plain"
-                                    :description "A test document"}})]
+        ;; list_files (oauth2/get
+        ;;             url-google-file
+        ;;             {:oauth2 credential})
     ;; (println "File ID:" (.getId file))
-    (println (:body list_files) (:body upload_file))))
+    (println folder sub-folders)
+    (for [file files]
+      (google-insert-file-with-metadata
+       credential (clojure.java.io/file  folder file)
+       (generate-string {:title file}))))
 
 (defn get-conf
   "simple read all the configuration, will decide what to do with in some other place"
@@ -73,11 +68,7 @@
   "I don't do a whole lot."
   [& args]
   (alter-var-root #'*read-eval* (constantly false))
-  ;; (let [conf (get-conf "conf.edn")]
+  (let [conf (get-conf "conf.edn")]
     ;; (log/info "Hello, World!")
     ;; (log/info "Conf" conf)
-    ;; (fs/walk #(log/info %1 %2 %3) (:dir conf)))
-  (do-the-stuff)
-  )
-
-(def credential {:access-token "ya29.AHES6ZTiboGbzeJbgTSBOZqs9udgildd_GcsCnpit2j-pvXy0FVhXg", :token-type "Bearer", :query-param :access_token, :params {:expires_in 3600, :refresh_token "1/B1eZmo4NjtULiRHyKFV12HQPTuYj0aPQEKGJ9keqOj0"}})
+    (fs/walk sync-folder (:dir conf))))
