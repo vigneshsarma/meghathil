@@ -11,7 +11,9 @@
 (def google-com-oauth2
   (edn/read-string (slurp
                     (clojure.java.io/resource "google-com-oauth2.edn"))))
-
+(def credential
+  (edn/read-string (slurp
+                    (clojure.java.io/resource "google-com-oauth2.edn"))))
 (def auth-req
   (oauth2/make-auth-request google-com-oauth2))
 
