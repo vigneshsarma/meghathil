@@ -1,5 +1,6 @@
 (ns meghathil.core
   (:require [me.raynes.fs :as fs]
+            [pantomime.mime :refer [mime-type-of]]
             ;; [clojure.tools.logging :as log]
             [clojure.edn :as edn]
             [cheshire.core :refer [parse-string generate-string]]
@@ -32,9 +33,11 @@
 (defn google-upload-file [credential file]
   (oauth2/post url-google-upload-file
                {:oauth2 credential
-                :headers {"Content-Type" "text/plain"}
+                :headers {"Content-Type" (mime-type-of file)}
+                ;; "text/plain"
                 :throw-exceptions false
                 :body file}))
+
 (defn google-insert-file-with-metadata [credential file metadata]
   (let [upload_file (google-upload-file credential file)]
     (if (= (:status upload_file) 200)
