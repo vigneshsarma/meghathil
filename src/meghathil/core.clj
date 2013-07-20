@@ -28,10 +28,13 @@
   (read-line))
 
 (defn get-google-credential []
-  (let [url (:uri auth-req)
+  (if (stored-cread :refresh-token)
+    (oauth2/refresh-access-token (stored-cread :refresh-token)
+                                 google-com-oauth2)
+    (let [url (:uri auth-req)
         code (get-auth-code url)]
     (oauth2/get-access-token google-com-oauth2
-                             {:code code} auth-req)))
+                             {:code code} auth-req))))
 
 (defn google-upload-file [credential file]
   (oauth2/post url-google-upload-file
