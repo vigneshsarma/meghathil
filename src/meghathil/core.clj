@@ -65,7 +65,7 @@
     (println folder sub-folders)
     (for [file files]
       (google-insert-file-with-metadata
-       credential (clojure.java.io/file  folder file)
+       (get-google-credential) (clojure.java.io/file  folder file)
        (generate-string {:title file}))))
 
 (defn get-conf
