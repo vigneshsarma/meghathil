@@ -8,14 +8,15 @@
   (:gen-class))
 (require 'clojure.java.io)
 
-(def google-com-oauth2
-  (edn/read-string (slurp
-                    (clojure.java.io/resource "google-com-oauth2.edn"))))
-(def credential
-  (edn/read-string (slurp
-                    (clojure.java.io/resource "google-com-oauth2.edn"))))
-(def auth-req
-  (oauth2/make-auth-request google-com-oauth2))
+
+(defn reload-conf []
+  (let [edn-google-com-oauth2
+        (edn/read-string
+         (slurp (clojure.java.io/resource "google-com-oauth2.edn")))]
+    (def google-com-oauth2 (:google-com-oauth2 edn-google-com-oauth2))
+    (def stored-cread (:stored-cread edn-google-com-oauth2))
+    (def auth-req
+      (oauth2/make-auth-request google-com-oauth2))))
 
 (def url-google-file "https://www.googleapis.com/drive/v2/files/")
 (def url-google-upload-file "https://www.googleapis.com/upload/drive/v2/files?uploadType=media")
