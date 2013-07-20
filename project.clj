@@ -5,9 +5,8 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [me.raynes/fs "1.4.4"]
-                 [org.clojure/tools.logging "0.2.6"]
+                 ;; [org.clojure/tools.logging "0.2.6"]
                  [com.novemberain/pantomime "2.0.0"]
                  [mavericklou/clj-oauth2 "0.5.2"]
-                 [cheshire "5.2.0"]
-                 [com.google.oauth-client/google-oauth-client "1.15.0-rc"]]
+                 [cheshire "5.2.0"]]
   :main meghathil.core)
