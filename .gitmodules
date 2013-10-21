@@ -1,0 +1,3 @@
+[submodule "checkouts/clj-oauth2"]
+	path = checkouts/clj-oauth2
+	url = git@github.com:vigneshsarma/clj-oauth2.git
